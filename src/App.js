@@ -2,7 +2,7 @@ import './App.css';
 import { useState } from 'react';
 
 function App() {
-  const [toDos, setToDos] = useState([])
+  const [toDosAll, setToDosAll] = useState([])
   const [toDo, setToDo] = useState('')
   return (
     <div className="app">
@@ -19,7 +19,7 @@ function App() {
       <div className="input">
         <input value={toDo} onChange={(e) => setToDo(e.target.value)} type="text" placeholder="🖊️ Add item..." />
         <i onClick={() => {
-          setToDos([...toDos, { id: Date.now(), task: toDo, status: false }])
+          setToDosAll([...toDosAll, { id: Date.now(), task: toDo, status: false }])
           setToDo('') //emptying what currently typed
         }} className="fas fa-plus"></i>
       </div>
@@ -27,23 +27,23 @@ function App() {
       {/* Displaying space*/}
       <div className="todos">
 
-        {toDos.map((objAll) => {
+        {toDosAll.map((objAll) => {
           return (
             <div className="todo">
 
               <div className="left">
-                <input onChange={(e) => {
-                  console.log(e.target.checked)
-                  console.log(objAll)
+                <input type="checkbox" onChange={(e) => {
+                  // console.log(e.target.checked) // console.log(objAll)
 
-                  setToDos(toDos.filter(objFilt => {
+                  setToDosAll(toDosAll.filter(objFilt => {
                     if (objFilt.id === objAll.id) {
                       objFilt.status = e.target.checked
                     }
                     return objFilt
                   }))
 
-                }} value={objAll.status} type="checkbox" name="" id="" />
+                }} value={objAll.status} />
+
                 <p>{objAll.task}</p>
               </div>
 
@@ -55,10 +55,11 @@ function App() {
           )
         })}
 
+        {/* Finsished Displaying space */}
         <div className='finished'>
-          <h1>FINISHED ITEMS</h1>
-          {/* Finsished Displaying space */}
-          {toDos.map((objAll) => {
+          <h3>FINISHED ITEMS</h3>
+
+          {toDosAll.map((objAll) => {
             if (objAll.status) {
               return (<p>{objAll.task}</p>)
             }
